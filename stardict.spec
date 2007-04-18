@@ -77,18 +77,6 @@ convert -geometry 32x32 pixmaps/stardict.png %{buildroot}%{_iconsdir}/%{name}.pn
 convert -geometry 16x16 pixmaps/stardict.png %{buildroot}%{_miconsdir}/%{name}.png
 
 # menu
-install -m 755 -d %{buildroot}%{_menudir}
-cat > %{buildroot}%{_menudir}/%{name} << EOF
-?package(%{name}): \
- command="%{_bindir}/%{name}" \
- needs="x11" \
- section="Office/Accessories" \
- title="Stardict" \
- longtitle="GUI international dictionary" \
- icon="%{name}.png" \
- xdg="true"
-EOF
-
 desktop-file-install --vendor="" \
   --remove-category="Application" \
   --add-category="GTK" \
@@ -132,7 +120,6 @@ if [ -x %{_bindir}/scrollkeeper-update ]; then %{_bindir}/scrollkeeper-update -q
 %{_libdir}/bonobo/servers/*.server
 %{_mandir}/man?/*
 
-%{_menudir}/%{name}
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
