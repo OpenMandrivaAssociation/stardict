@@ -28,6 +28,9 @@ BuildRequires:	scrollkeeper
 BuildRequires:  perl-XML-Parser
 BuildRequires:	libpcre-devel
 BuildRequires:	desktop-file-utils
+BuildRequires:	enchant-devel
+BuildRequires:	gucharmap-devel
+BuildRequires:	festival-devel
 Requires:	stardict-dictionary = %{dict_format_version}
 Conflicts:	stardict-dictionary < %{dict_format_version}
 Conflicts:	stardict-dictionary > %{dict_format_version}
@@ -57,6 +60,7 @@ features:
 %build
 export PKG_CONFIG=`which pkg-config`	# Give the configure script a helping hand in finding pkg-config
 %configure2_5x --disable-schemas-install \
+  --disable-espeak
 %if %build_without_gnome
   --disable-gnome-support
 %else
