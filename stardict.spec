@@ -31,6 +31,7 @@ BuildRequires:	desktop-file-utils
 BuildRequires:	enchant-devel
 BuildRequires:	gucharmap-devel
 BuildRequires:	festival-devel
+BuildRequires:	speech_tools-devel
 Requires:	stardict-dictionary = %{dict_format_version}
 Conflicts:	stardict-dictionary < %{dict_format_version}
 Conflicts:	stardict-dictionary > %{dict_format_version}
