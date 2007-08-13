@@ -59,7 +59,9 @@ features:
 %patch0 -p1 -b .langcode
 
 %build
-export PKG_CONFIG=`which pkg-config`	# Give the configure script a helping hand in finding pkg-config
+# fwang: stardict cannot find EST include files
+export CPPFLAGS="-I/usr/include/EST"
+
 %configure2_5x --disable-schemas-install \
   --disable-espeak
 %if %build_without_gnome
@@ -121,7 +123,7 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}
 %{_libdir}/bonobo/servers/*.server
 %{_mandir}/man?/*
-
+%{_libdir}/%{name}
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
