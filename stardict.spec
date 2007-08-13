@@ -1,5 +1,5 @@
-%define version 2.4.8
-%define release %mkrel 2
+%define version 3.0.0
+%define release %mkrel 1
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -82,7 +82,6 @@ desktop-file-install --vendor="" \
   --add-category="GTK" \
   --add-category="Office" \
   --add-category="Dictionary" \
-  --add-category="X-MandrivaLinux-Office-Accessories" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 # own various directories
@@ -96,17 +95,15 @@ rm -rf %{buildroot}
 
 %post
 %update_menus
-if [ -x %{_bindir}/scrollkeeper-update ]; then %{_bindir}/scrollkeeper-update -q; fi
-GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/stardict.schemas > /dev/null
+%update_scrollkeeper
+%post_install_gconf_schemas stardict
 
 %preun
-if [ "$1" = "0" ] ; then
-GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/stardict.schemas > /dev/null
-fi
+%preun_install_gconf_schemas stardict
 
 %postun
 %clean_menus
-if [ -x %{_bindir}/scrollkeeper-update ]; then %{_bindir}/scrollkeeper-update -q; fi
+%clean_scrollkeeper
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -123,4 +120,3 @@ if [ -x %{_bindir}/scrollkeeper-update ]; then %{_bindir}/scrollkeeper-update -q
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
-
