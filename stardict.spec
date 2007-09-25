@@ -1,5 +1,5 @@
 %define version 3.0.0
-%define release %mkrel 1
+%define release %mkrel 2
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -18,7 +18,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 Source:		http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-2.4.2-langcode.patch
-
+Patch1:		stardict-3.0.0-desktop-file-fix.patch
 %if %build_without_gnome
 %else
 BuildRequires:	libgnomeui2-devel >= 2.2.0
@@ -57,6 +57,7 @@ features:
 %prep
 %setup -q
 %patch0 -p1 -b .langcode
+%patch1 -p0 -b .desktop
 
 %build
 # fwang: stardict cannot find EST include files
