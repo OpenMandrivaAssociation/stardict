@@ -1,5 +1,5 @@
-%define version 3.0.0
-%define release %mkrel 2
+%define version 3.0.1
+%define release %mkrel 1
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -30,8 +30,8 @@ BuildRequires:	libpcre-devel
 BuildRequires:	desktop-file-utils
 BuildRequires:	enchant-devel
 BuildRequires:	gucharmap-devel
-BuildRequires:	festival-devel
-BuildRequires:	speech_tools-devel
+#BuildRequires:	festival-devel
+#BuildRequires:	speech_tools-devel
 Requires:	stardict-dictionary = %{dict_format_version}
 Conflicts:	stardict-dictionary < %{dict_format_version}
 Conflicts:	stardict-dictionary > %{dict_format_version}
