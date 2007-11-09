@@ -1,5 +1,5 @@
 %define version 3.0.1
-%define release %mkrel 1
+%define release %mkrel 2
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
