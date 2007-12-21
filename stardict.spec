@@ -14,6 +14,7 @@ Release:	%{release}
 License:	GPL
 Group:		Text tools
 URL:		http://stardict.sourceforge.net/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 Source:		http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-2.4.2-langcode.patch
