@@ -7,7 +7,7 @@
 # used to indicate difference between new/old dictionary formats
 %define dict_format_version 2.4.2
 
-Summary:	StarDict is an international dictionary written for GNOME
+Summary:	International dictionary written for GNOME
 Name:		stardict
 Version:	%{version}
 Release:	%{release}
