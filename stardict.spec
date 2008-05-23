@@ -11,7 +11,7 @@ Summary:	International dictionary written for GNOME
 Name:		stardict
 Version:	%{version}
 Release:	%{release}
-License:	GPL
+License:	GPLv3+
 Group:		Text tools
 URL:		http://stardict.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -19,6 +19,10 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 Source:		http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-2.4.2-langcode.patch
 Patch1:		stardict-3.0.0-desktop-file-fix.patch
+# From upstream SVN (rev 250): fix build with GCC 4.3 - AdamW 2008/05
+Patch2:		stardict-3.0.1-gcc43_a.patch
+# From upstream SVN (rev 256): fix build with GCC 4.3 - AdamW 2008/05
+Patch3:		stardict-3.0.1-gcc43_b.patch
 %if %build_without_gnome
 %else
 BuildRequires:	libgnomeui2-devel >= 2.2.0
@@ -58,6 +62,8 @@ features:
 %setup -q
 %patch0 -p1 -b .langcode
 %patch1 -p0 -b .desktop
+%patch2 -p0 -b .gcc43_a
+%patch3 -p0 -b .gcc43_b
 
 %build
 # fwang: stardict cannot find EST include files
@@ -77,12 +83,11 @@ rm -rf %{buildroot}
 GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 %makeinstall_std
 
 # icons
-mkdir -p %{buildroot}%{_iconsdir} \
-	 %{buildroot}%{_miconsdir}
+mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 
-install -m 0644 -D      pixmaps/stardict.png %{buildroot}%{_liconsdir}/%{name}.png
-convert -geometry 32x32 pixmaps/stardict.png %{buildroot}%{_iconsdir}/%{name}.png
-convert -geometry 16x16 pixmaps/stardict.png %{buildroot}%{_miconsdir}/%{name}.png
+install -m 0644 pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
+convert -geometry 32x32 pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+convert -geometry 16x16 pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 
 # menu
 desktop-file-install --vendor="" \
@@ -90,7 +95,7 @@ desktop-file-install --vendor="" \
   --add-category="GTK" \
   --add-category="Office" \
   --add-category="Dictionary" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
+  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
 
 # own various directories
 mkdir -p %{buildroot}%{_datadir}/stardict/dic	\
@@ -125,6 +130,5 @@ rm -rf %{buildroot}
 %{_libdir}/bonobo/servers/*.server
 %{_mandir}/man?/*
 %{_libdir}/%{name}
-%{_iconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
-%{_miconsdir}/%{name}.png
+%{_iconsdir}/hicolor/*/apps/%{name}.png
+
