@@ -1,5 +1,5 @@
 %define version 3.0.1
-%define release %mkrel 3
+%define release %mkrel 4
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -64,7 +64,7 @@ features:
 export CPPFLAGS="-I/usr/include/EST"
 
 %configure2_5x --disable-schemas-install \
-  --disable-espeak --disable-festival
+  --disable-espeak --disable-festival --disable-advertisement-plugin --disable-update-info-plugin
 %if %build_without_gnome
   --disable-gnome-support
 %else
