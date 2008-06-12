@@ -106,17 +106,21 @@ mkdir -p %{buildroot}%{_datadir}/stardict/dic	\
 %clean
 rm -rf %{buildroot}
 
+%if %mdkversion < 200900
 %post
 %update_menus
 %update_scrollkeeper
 %post_install_gconf_schemas stardict
+%endif
 
 %preun
 %preun_install_gconf_schemas stardict
 
+%if %mdkversion < 200900
 %postun
 %clean_menus
 %clean_scrollkeeper
+%endif
 
 %files -f %{name}.lang
 %defattr(-,root,root)
