@@ -70,7 +70,7 @@ features:
 export CPPFLAGS="-I/usr/include/EST"
 
 %configure2_5x --disable-schemas-install \
-  --disable-espeak --disable-festival --disable-advertisement-plugin --disable-update-info-plugin
+  --disable-espeak --disable-festival \
 %if %build_without_gnome
   --disable-gnome-support
 %else
