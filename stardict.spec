@@ -1,5 +1,5 @@
 %define version 3.0.1
-%define release %mkrel 4
+%define release %mkrel 5
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -29,7 +29,7 @@ BuildRequires:	libgnomeui2-devel >= 2.2.0
 %endif
 BuildRequires:	ImageMagick
 BuildRequires:	scrollkeeper
-BuildRequires:  perl-XML-Parser
+BuildRequires:  intltool
 BuildRequires:	libpcre-devel
 BuildRequires:	desktop-file-utils
 BuildRequires:	enchant-devel
