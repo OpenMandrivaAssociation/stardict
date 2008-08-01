@@ -19,10 +19,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 Source:		http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-2.4.2-langcode.patch
 Patch1:		stardict-3.0.0-desktop-file-fix.patch
-# From upstream SVN (rev 250): fix build with GCC 4.3 - AdamW 2008/05
-Patch2:		stardict-3.0.1-gcc43_a.patch
-# From upstream SVN (rev 256): fix build with GCC 4.3 - AdamW 2008/05
-Patch3:		stardict-3.0.1-gcc43_b.patch
+Patch4:		stardict-3.0.1.gcc43.patch
+Patch5:		stardict-3.0.1-10.gucharmap.patch
 %if %build_without_gnome
 %else
 BuildRequires:	libgnomeui2-devel >= 2.2.0
@@ -34,6 +32,7 @@ BuildRequires:	libpcre-devel
 BuildRequires:	desktop-file-utils
 BuildRequires:	enchant-devel
 BuildRequires:	gucharmap-devel
+BuildRequires:	sigc++2.0-devel
 #BuildRequires:	festival-devel
 #BuildRequires:	speech_tools-devel
 Requires:	stardict-dictionary = %{dict_format_version}
@@ -62,13 +61,13 @@ features:
 %setup -q
 %patch0 -p1 -b .langcode
 %patch1 -p0 -b .desktop
-%patch2 -p0 -b .gcc43_a
-%patch3 -p0 -b .gcc43_b
+%patch4 -p1 -b .gcc43
+%patch5 -p1 -b .gucharmap
 
 %build
 # fwang: stardict cannot find EST include files
-export CPPFLAGS="-I/usr/include/EST"
-
+export CPPFLAGS="%{optflags} -I/usr/include/EST"
+autoreconf
 %configure2_5x --disable-schemas-install \
   --disable-espeak --disable-festival \
 %if %build_without_gnome
