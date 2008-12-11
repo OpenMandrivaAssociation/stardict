@@ -25,7 +25,7 @@ Patch5:		stardict-3.0.1-10.gucharmap.patch
 %else
 BuildRequires:	libgnomeui2-devel >= 2.2.0
 %endif
-BuildRequires:	ImageMagick
+BuildRequires:	imagemagick
 BuildRequires:	scrollkeeper
 BuildRequires:  intltool
 BuildRequires:	libpcre-devel
