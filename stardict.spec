@@ -19,6 +19,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 Source:		http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-2.4.2-langcode.patch
 Patch1:		stardict-3.0.0-desktop-file-fix.patch
+Patch2:		stardict-3.0.1-fix-str-fmt.patch
 Patch4:		stardict-3.0.1.gcc43.patch
 Patch5:		stardict-3.0.1-10.gucharmap.patch
 %if %build_without_gnome
@@ -61,13 +62,14 @@ features:
 %setup -q
 %patch0 -p1 -b .langcode
 %patch1 -p0 -b .desktop
+%patch2 -p0 -b .str
 %patch4 -p1 -b .gcc43
 %patch5 -p1 -b .gucharmap
 
 %build
 # fwang: stardict cannot find EST include files
 export CPPFLAGS="%{optflags} -I/usr/include/EST"
-autoreconf
+autoreconf -fi
 %configure2_5x --disable-schemas-install \
   --disable-espeak --disable-festival \
 %if %build_without_gnome
