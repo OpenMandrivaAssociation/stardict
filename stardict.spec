@@ -1,5 +1,5 @@
 %define version 3.0.1
-%define release %mkrel 5
+%define release %mkrel 6
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -22,6 +22,8 @@ Patch1:		stardict-3.0.0-desktop-file-fix.patch
 Patch2:		stardict-3.0.1-fix-str-fmt.patch
 Patch4:		stardict-3.0.1.gcc43.patch
 Patch5:		stardict-3.0.1-10.gucharmap.patch
+Patch6:		stardict-3.0.1-13.bz441209.patch
+Patch7:		stardict-3.0.1.gcc44.patch
 %if %build_without_gnome
 %else
 BuildRequires:	libgnomeui2-devel >= 2.2.0
@@ -65,6 +67,8 @@ features:
 %patch2 -p0 -b .str
 %patch4 -p1 -b .gcc43
 %patch5 -p1 -b .gucharmap
+%patch6 -p1 -b .bz441209
+%patch7 -p0 -b .gcc44
 
 %build
 # fwang: stardict cannot find EST include files
