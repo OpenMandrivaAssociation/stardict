@@ -1,5 +1,5 @@
 %define version 3.0.1
-%define release %mkrel 6
+%define release %mkrel 7
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -17,6 +17,7 @@ URL:		http://stardict.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 Source:		http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source1:	defaultdict.cfg
 Patch0:		%{name}-2.4.2-langcode.patch
 Patch1:		stardict-3.0.0-desktop-file-fix.patch
 Patch2:		stardict-3.0.1-fix-str-fmt.patch
@@ -87,6 +88,10 @@ autoreconf -fi
 rm -rf %{buildroot}
 GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 %makeinstall_std
 
+# copy config file of locale specific default dictionaries
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
+
 # icons
 mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 
@@ -130,6 +135,8 @@ rm -rf %{buildroot}
 %files -f %{name}.lang
 %defattr(-,root,root)
 %{_sysconfdir}/gconf/schemas/*.schemas
+%dir %{_sysconfdir}/%{name}
+%{_sysconfdir}/%{name}/defaultdict.cfg
 %{_bindir}/*
 %{_datadir}/applications/*.desktop
 %{_datadir}/idl/*.idl
