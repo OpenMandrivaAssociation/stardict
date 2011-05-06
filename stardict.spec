@@ -25,6 +25,7 @@ Patch4:		stardict-3.0.1.gcc43.patch
 Patch5:		stardict-3.0.1-10.gucharmap.patch
 Patch6:		stardict-3.0.1-13.bz441209.patch
 Patch7:		stardict-3.0.1.gcc44.patch
+Patch8:		stardict-3.0.1-gcc46.patch
 %if %build_without_gnome
 %else
 BuildRequires:	libgnomeui2-devel >= 2.2.0
@@ -70,6 +71,7 @@ features:
 %patch5 -p1 -b .gucharmap
 %patch6 -p1 -b .bz441209
 %patch7 -p0 -b .gcc44
+%patch8 -p0 -b .gcc46
 
 %build
 # fwang: stardict cannot find EST include files
