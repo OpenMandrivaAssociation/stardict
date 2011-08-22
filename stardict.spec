@@ -1,5 +1,5 @@
 %define version 3.0.3
-%define release %mkrel 10
+%define release %mkrel 1
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
@@ -38,6 +38,7 @@ BuildRequires:	desktop-file-utils
 BuildRequires:	enchant-devel
 BuildRequires:	gucharmap-devel
 BuildRequires:	sigc++2.0-devel
+BuildRequires:	gnome-doc-utils
 #BuildRequires:	festival-devel
 #BuildRequires:	speech_tools-devel
 Requires:	stardict-dictionary = %{dict_format_version}
