@@ -41,6 +41,8 @@ BuildRequires:	sigc++2.0-devel
 BuildRequires:	gnome-doc-utils
 %ifarch x86_64
 BuildRequires:	lib64mysql-devel
+%else
+Buildrequires:	libmysql-devel
 %endif
 #BuildRequires:	festival-devel
 #BuildRequires:	speech_tools-devel
