@@ -1,4 +1,4 @@
-%define version 3.0.1
+%define version 3.0.3
 %define release %mkrel 10
 %define build_without_gnome 0
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
@@ -64,7 +64,7 @@ features:
 
 %prep
 %setup -q
-%patch0 -p1 -b .langcode
+#%patch0 -p1 -b .langcode
 %patch1 -p0 -b .desktop
 %patch2 -p0 -b .str
 %patch4 -p1 -b .gcc43
