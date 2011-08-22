@@ -39,6 +39,7 @@ BuildRequires:	enchant-devel
 BuildRequires:	gucharmap-devel
 BuildRequires:	sigc++2.0-devel
 BuildRequires:	gnome-doc-utils
+Buildrequires:	libmysql-devel
 #BuildRequires:	festival-devel
 #BuildRequires:	speech_tools-devel
 Requires:	stardict-dictionary = %{dict_format_version}
