@@ -65,13 +65,13 @@ features:
 %prep
 %setup -q
 #%patch0 -p1 -b .langcode
-%patch1 -p0 -b .desktop
-%patch2 -p0 -b .str
-%patch4 -p1 -b .gcc43
-%patch5 -p1 -b .gucharmap
-%patch6 -p1 -b .bz441209
-%patch7 -p0 -b .gcc44
-%patch8 -p0 -b .gcc46
+#%patch1 -p0 -b .desktop
+#%patch2 -p0 -b .str
+#%patch4 -p1 -b .gcc43
+#%patch5 -p1 -b .gucharmap
+#%patch6 -p1 -b .bz441209
+#%patch7 -p0 -b .gcc44
+#%patch8 -p0 -b .gcc46
 
 %build
 # fwang: stardict cannot find EST include files
