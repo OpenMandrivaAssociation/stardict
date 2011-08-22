@@ -39,8 +39,8 @@ BuildRequires:	enchant-devel
 BuildRequires:	gucharmap-devel
 BuildRequires:	sigc++2.0-devel
 BuildRequires:	gnome-doc-utils
-%if "%{?_lib}" == "lib64"
-Buildrequires:	lib64mysql-devel
+%ifarch x86_64
+BuildRequires:	lib64mysql-devel
 %endif
 #BuildRequires:	festival-devel
 #BuildRequires:	speech_tools-devel
