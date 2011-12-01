@@ -97,8 +97,8 @@ rm -rf %{buildroot}
 GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 %makeinstall_std
 
 # copy config file of locale specific default dictionaries
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
-cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
+install -d %{buildroot}%{_sysconfdir}/%{name}
+cp -p %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}
 
 # icons
 mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
