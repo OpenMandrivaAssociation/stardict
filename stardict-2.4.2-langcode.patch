@@ -1,0 +1,22 @@
+--- stardict-2.4.2/help/zh_CN/stardict.xml.bak	2003-11-14 13:32:11.000000000 +0800
++++ stardict-2.4.2/help/zh_CN/stardict.xml	2003-11-30 22:48:24.000000000 +0800
+@@ -16,7 +16,7 @@
+   
+ -->
+ <!-- =============Document Header ============================= -->
+-<article id="index" lang="zh_CN">
++<article id="index" lang="zh-cn">
+ <!-- please do not change the id; for translations, change lang to -->
+ <!-- appropriate code -->
+   <articleinfo> 
+--- stardict-2.4.2/help/zh_CN/stardict-zh_CN.omf.bak	2003-11-14 22:32:13.000000000 +0800
++++ stardict-2.4.2/help/zh_CN/stardict-zh_CN.omf	2003-11-30 22:46:19.000000000 +0800
+@@ -23,7 +23,7 @@
+     </type>
+     <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.1.2//EN"/>
+     <identifier url="stardict.xml"/>
+-    <language code="zh_CN"/>
++    <language code="zh-cn"/>
+     <relation seriesid="b8082230-5987-4b7f-b26e-f7a219ed8a1e"/>
+     <rights type="GNU FDL" license.version="1.1" holder="Hu Zheng"/>
+   </resource>        
