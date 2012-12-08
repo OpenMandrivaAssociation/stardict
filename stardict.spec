@@ -1,6 +1,5 @@
-%define version 3.0.3
-%define release %mkrel 1
 %define build_without_gnome 0
+
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
 
@@ -9,50 +8,45 @@
 
 Summary:	International dictionary written for GNOME
 Name:		stardict
-Version:	%{version}
-Release:	%{release}
+Version:	3.0.3
+Release:	6
 License:	GPLv3+
 Group:		Text tools
-URL:		http://stardict.sourceforge.net/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
-
-Source:		http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+URL:		http://code.google.com/p/stardict-3/
+Source:		http://stardict-3.googlecode.com/files/%{name}-%{version}.tar.bz2
 Source1:	defaultdict.cfg
-Patch0:		%{name}-2.4.2-langcode.patch
-Patch1:		stardict-3.0.0-desktop-file-fix.patch
-Patch2:		stardict-3.0.1-fix-str-fmt.patch
-Patch4:		stardict-3.0.1.gcc43.patch
-Patch5:		stardict-3.0.1-10.gucharmap.patch
-Patch6:		stardict-3.0.1-13.bz441209.patch
-Patch7:		stardict-3.0.1.gcc44.patch
-Patch8:		stardict-3.0.1-gcc46.patch
+Patch1:		stardict-3.0.3-glib.patch
+Patch2:		stardict-3.0.3-str-fmt.patch
+Patch3:		stardict-3.0.3-zlib.patch
+Patch4:		stardict-3.0.3-compositelookup_cpp.patch
+Patch9:         stardict-3.0.3-gcc46.patch
+
 %if %build_without_gnome
 %else
-BuildRequires:	libgnomeui2-devel >= 2.2.0
+BuildRequires:	pkgconfig(libgnomeui-2.0) >= 2.20
 %endif
+
+BuildRequires:	pkgconfig(enchant) >= 1.2.0
+BuildRequires:	pkgconfig(gio-2.0)
+BuildRequires:	pkgconfig(glib-2.0) >= 2.16
+BuildRequires:	pkgconfig(gtk+-2.0) >= 2.20
+BuildRequires:	pkgconfig(libpcre)
+BuildRequires:	pkgconfig(libxml-2.0) >= 2.5
+BuildRequires:	pkgconfig(sigc++-2.0)
+BuildRequires:	pkgconfig(zlib)
+BuildRequires:	mysql-devel
+BuildRequires:	GConf2
+BuildRequires:	pkgconfig(gnome-doc-utils)
 BuildRequires:	imagemagick
 BuildRequires:	scrollkeeper
 BuildRequires:  intltool
-BuildRequires:	libpcre-devel
 BuildRequires:	desktop-file-utils
-BuildRequires:	enchant-devel
-BuildRequires:	gucharmap-devel
-BuildRequires:	sigc++2.0-devel
-BuildRequires:	gnome-doc-utils
-%ifarch x86_64
-BuildRequires:	lib64mysql-devel
-%else
-Buildrequires:	libmysql-devel
-%endif
-#BuildRequires:	festival-devel
-#BuildRequires:	speech_tools-devel
+Obsoletes:	%{name}-tools < %{version}
+Provides:	%{name}-tools = %{version}
 Requires:	stardict-dictionary = %{dict_format_version}
 Conflicts:	stardict-dictionary < %{dict_format_version}
 Conflicts:	stardict-dictionary > %{dict_format_version}
-Requires(post): GConf2 >= 2.3.3
-Requires(preun): GConf2 >= 2.3.3
-Requires(post): scrollkeeper
-Requires(postun): scrollkeeper
+Requires(preun):	GConf2 >= 2.3.3
 
 %description
 StarDict is an international dictionary written for the GNOME environment.
@@ -68,44 +62,41 @@ features:
 - Many dictionaries available, including freedict, *quick, xdict,
   dict.org dictionaries
 
+
 %prep
 %setup -q
-#%patch0 -p1 -b .langcode
-#%patch1 -p0 -b .desktop
-#%patch2 -p0 -b .str
-#%patch4 -p1 -b .gcc43
-#%patch5 -p1 -b .gucharmap
-#%patch6 -p1 -b .bz441209
-#%patch7 -p0 -b .gcc44
-#%patch8 -p0 -b .gcc46
+%patch1 -p0
+%patch2 -p0
+%patch3 -p1
+%patch4 -p0
+%patch9 -p1
 
 %build
-# fwang: stardict cannot find EST include files
-export CPPFLAGS="%{optflags} -I/usr/include/EST"
-autoreconf -fi
-%configure2_5x --disable-schemas-install \
-  --disable-espeak --disable-festival \
+pushd dict
+%before_configure
+popd
+%configure2_5x \
 %if %build_without_gnome
-  --disable-gnome-support
-%else
-
+        --disable-gnome-support \
 %endif
+	--disable-schemas-install \
+ 	--disable-espeak \
+	--disable-festival \
+	--disable-gucharmap
 %make
 
 %install
-rm -rf %{buildroot}
-GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 %makeinstall_std
+%makeinstall_std
 
 # copy config file of locale specific default dictionaries
-install -d %{buildroot}%{_sysconfdir}/%{name}
-cp -p %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}
+install -Dpm644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}/defaultdict.cfg
 
 # icons
 mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 
-install -m 0644 pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
-convert -geometry 32x32 pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
-convert -geometry 16x16 pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
+install -m 0644 dict/pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
+convert -geometry 32x32 dict/pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+convert -geometry 16x16 dict/pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 
 # menu
 desktop-file-install --vendor="" \
@@ -121,38 +112,82 @@ mkdir -p %{buildroot}%{_datadir}/stardict/dic	\
 
 %find_lang %{name} --with-gnome
 
-%clean
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post
-%update_menus
-%update_scrollkeeper
-%post_install_gconf_schemas stardict
-%endif
-
 %preun
-%preun_install_gconf_schemas stardict
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%clean_scrollkeeper
-%endif
+%preun_uninstall_gconf_schemas stardict
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %{_sysconfdir}/gconf/schemas/*.schemas
 %dir %{_sysconfdir}/%{name}
-%{_sysconfdir}/%{name}/defaultdict.cfg
+%config(noreplace) %{_sysconfdir}/%{name}/defaultdict.cfg
 %{_bindir}/*
 %{_datadir}/applications/*.desktop
 %{_datadir}/idl/*.idl
-%{_datadir}/omf/*
 %{_datadir}/pixmaps/*
 %{_datadir}/%{name}
 %{_libdir}/bonobo/servers/*.server
 %{_mandir}/man?/*
 %{_libdir}/%{name}
 %{_iconsdir}/hicolor/*/apps/%{name}.png
+
+
+%changelog
+* Mon Apr 16 2012 fwang <fwang> 3.0.3-5.mga2
++ Revision: 231007
+- fix preun script
+
+* Mon Apr 16 2012 fwang <fwang> 3.0.3-4.mga2
++ Revision: 230985
+- correct build flags
+
+* Mon Apr 16 2012 fwang <fwang> 3.0.3-3.mga2
++ Revision: 230981
+- add opensuse patch to fix crash at startup
+
+* Mon Apr 16 2012 fwang <fwang> 3.0.3-2.mga2
++ Revision: 230977
+- use gentoo patch instead
+- update patch
+- add debian patch to fix build with latest zlib
+- rebuild
+
+* Mon Jan 30 2012 fwang <fwang> 3.0.3-1.mga2
++ Revision: 203205
+- cleanup old patches
+- merged stardict-tools, it seems
+
+* Mon Jan 30 2012 fwang <fwang> 3.0.3-0.mga2
++ Revision: 203200
+- fix icon instlal
+- rediff gcc 4.6 patch
+- fix str fmt
+- br mysql
+- do not use autoreconf, it is not needed since patches are disabled
+- fix build with latest glib
+
+  + kamil <kamil>
+    - new versdion 3.0.3
+    - disable all patches, they seem merged
+    - update URL
+    - update SOURCE
+
+* Wed Sep 21 2011 fwang <fwang> 3.0.2-2.mga2
++ Revision: 146306
+- fix typo
+- drop .la files
+
+* Sun Jun 26 2011 wally <wally> 3.0.2-1.mga2
++ Revision: 113955
+- sync patches with Fedora (drop some and add P8 & P9)
+- rediff P0
+- add P10 to fix build with --as-needed
+- disable gucharmap support for now
+- clean .spec a bit
+
+  + tv <tv>
+    - new release
+
+* Sun Feb 20 2011 grenoya <grenoya> 3.0.1-9.mga1
++ Revision: 54797
+-imported package stardict
+- imported package stardict
 

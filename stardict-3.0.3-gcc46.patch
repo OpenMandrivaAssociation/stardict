@@ -1,0 +1,10 @@
+--- a/dict/stardict-plugins/stardict-wordnet-plugin/scene.h.orig	2011-07-03 08:58:40.000000000 +0200
++++ b/dict/stardict-plugins/stardict-wordnet-plugin/scene.h	2012-01-30 07:46:25.000000000 +0100
+@@ -28,6 +28,7 @@
+ #include "partic.h"
+ #include "spring.h"
+ 
++#include <cstddef>
+ #include <vector>
+ using namespace std;
+ 

@@ -1,0 +1,10 @@
+--- dict/src/desktop.cpp.str	2012-01-30 14:35:05.089550701 +0800
++++ dict/src/desktop.cpp	2012-01-30 14:35:17.009547487 +0800
+@@ -263,6 +263,7 @@
+ 			GTK_DIALOG_MODAL,
+ 			GTK_MESSAGE_WARNING,
+ 			GTK_BUTTONS_YES_NO,
++			"%s",
+ 			msg);
+ 	bool confirmed = false;
+ 	gint response = gtk_dialog_run (GTK_DIALOG (dialog));
