@@ -1,4 +1,4 @@
-%define build_without_gnome 1
+%define build_without_gnome 0
 %define _disable_ld_no_undefined 1
 %define _disable_ld_as_needed   1
 
@@ -10,8 +10,8 @@
 
 Summary:	International dictionary written for GNOME
 Name:		stardict
-Version:	3.0.3
-Release:	6
+Version:	3.0.4
+Release:	1
 License:	GPLv3+
 Group:		Text tools
 URL:		http://code.google.com/p/stardict-3/
@@ -20,8 +20,6 @@ Source1:	defaultdict.cfg
 Patch1:		stardict-3.0.3-glib.patch
 Patch2:		stardict-3.0.3-str-fmt.patch
 Patch3:		stardict-3.0.3-zlib.patch
-Patch4:		stardict-3.0.3-compositelookup_cpp.patch
-Patch9:         stardict-3.0.3-gcc46.patch
 
 %if %build_without_gnome
 %else
@@ -70,8 +68,6 @@ features:
 %patch1 -p0
 %patch2 -p0
 %patch3 -p1
-%patch4 -p0
-%patch9 -p1
 
 %build
 pushd dict
@@ -85,6 +81,7 @@ popd
  	--disable-espeak \
 	--disable-festival \
 	--disable-gucharmap
+export LIBS=-lgmodules-2.0
 %make
 
 %install
