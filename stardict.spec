@@ -17,7 +17,6 @@ Group:		Text tools
 URL:		http://code.google.com/p/stardict-3/
 Source:		http://stardict-3.googlecode.com/files/%{name}-%{version}.tar.bz2
 Source1:	defaultdict.cfg
-Patch1:		stardict-3.0.3-glib.patch
 Patch2:		stardict-3.0.3-str-fmt.patch
 Patch3:		stardict-3.0.3-zlib.patch
 
@@ -65,7 +64,6 @@ features:
 
 %prep
 %setup -q
-%patch1 -p0
 %patch2 -p0
 %patch3 -p1
 
