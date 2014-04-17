@@ -1,4 +1,4 @@
-%define build_without_gnome 0
+%define build_without_gnome 1
 %define _disable_ld_no_undefined 1
 %define _disable_ld_as_needed   1
 
@@ -11,7 +11,7 @@
 Summary:	International dictionary written for GNOME
 Name:		stardict
 Version:	3.0.4
-Release:	2
+Release:	3
 License:	GPLv3+
 Group:		Text tools
 URL:		http://code.google.com/p/stardict-3/
