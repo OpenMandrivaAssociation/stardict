@@ -34,7 +34,6 @@ BuildRequires:	pkgconfig(libxml-2.0) >= 2.5
 BuildRequires:	pkgconfig(sigc++-2.0)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	mysql-devel
-BuildRequires:	GConf2
 BuildRequires:	pkgconfig(gnome-doc-utils)
 BuildRequires:	imagemagick
 BuildRequires:	scrollkeeper
@@ -45,7 +44,6 @@ Provides:	%{name}-tools = %{version}
 Requires:	stardict-dictionary = %{dict_format_version}
 Conflicts:	stardict-dictionary < %{dict_format_version}
 Conflicts:	stardict-dictionary > %{dict_format_version}
-Requires(preun):	GConf2 >= 2.3.3
 
 %description
 StarDict is an international dictionary written for the GNOME environment.
