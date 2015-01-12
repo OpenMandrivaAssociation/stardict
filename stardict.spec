@@ -66,11 +66,14 @@ features:
 %patch3 -p1
 
 %build
+export CC=gcc
+export CXX=g++
+
 pushd dict
 %before_configure
 popd
 export LIBS=-lgmodule-2.0
-%configure2_5x \
+%configure \
 %if %build_without_gnome
         --disable-gnome-support \
 %endif
