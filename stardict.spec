@@ -1,6 +1,7 @@
 %define build_without_gnome 1
 %define _disable_ld_no_undefined 1
 %define _disable_ld_as_needed   1
+%define _disable_rebuild_configure 1
 
 %{?_with_gnome: %{expand: %%global build_without_gnome 0}}
 %{?_without_gnome: %{expand: %%global build_without_gnome 1}}
