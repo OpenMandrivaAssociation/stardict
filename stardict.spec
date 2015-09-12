@@ -12,7 +12,7 @@
 Summary:	International dictionary written for GNOME
 Name:		stardict
 Version:	3.0.4
-Release:	10
+Release:	11
 License:	GPLv3+
 Group:		Text tools
 URL:		http://code.google.com/p/stardict-3/
