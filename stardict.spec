@@ -67,8 +67,8 @@ features:
 %patch3 -p1
 
 %build
-export CC=gcc
-export CXX=g++
+export CC='gcc'
+export CXX='g++ -std=c++11'
 
 pushd dict
 %before_configure
