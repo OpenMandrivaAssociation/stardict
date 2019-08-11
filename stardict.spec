@@ -25,6 +25,7 @@ BuildRequires:	pkgconfig(libpcre)
 BuildRequires:	pkgconfig(libxml-2.0) >= 2.5
 BuildRequires:	pkgconfig(sigc++-2.0)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	espeak-devel
 BuildRequires:	mysql-devel
 BuildRequires:	pkgconfig(gnome-doc-utils)
 BuildRequires:	imagemagick
