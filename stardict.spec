@@ -1,4 +1,3 @@
-%define build_without_gnome 1
 %define _disable_ld_no_undefined 1
 %define _disable_ld_as_needed   1
 %define _disable_rebuild_configure 1
@@ -11,20 +10,12 @@
 
 Summary:	International dictionary written for GNOME
 Name:		stardict
-Version:	3.0.4
-Release:	12
+Version:	3.0.6
+Release:	1
 License:	GPLv3+
 Group:		Text tools
 URL:		http://code.google.com/p/stardict-3/
-Source:		http://stardict-3.googlecode.com/files/%{name}-%{version}.tar.bz2
-Source1:	defaultdict.cfg
-Patch2:		stardict-3.0.3-str-fmt.patch
-Patch3:		stardict-3.0.3-zlib.patch
-
-%if %build_without_gnome
-%else
-BuildRequires:	pkgconfig(libgnomeui-2.0) >= 2.20
-%endif
+Source0:	http://stardict-3.googlecode.com/files/%{name}-%{version}.tar.bz2
 
 BuildRequires:	pkgconfig(enchant) >= 1.2.0
 BuildRequires:	pkgconfig(gio-2.0)
@@ -63,62 +54,40 @@ features:
 
 %prep
 %setup -q
-%patch2 -p0
-%patch3 -p1
 
 %build
 export CC='gcc'
 export CXX='g++ -std=c++11'
-
-pushd dict
-%before_configure
-popd
-export LIBS=-lgmodule-2.0
-%configure \
-%if %build_without_gnome
-        --disable-gnome-support \
-%endif
-	--disable-schemas-install \
- 	--disable-espeak \
-	--disable-festival \
-	--disable-gucharmap 
-%make
+%configure --disable-gnome-support \
+           --disable-gucharmap \
+           --disable-dictdotcn \
+           --disable-tools \
+           --disable-festival
+make -k %{_smp_mflags}
 
 %install
-%makeinstall_std
+make DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" install
 
-# copy config file of locale specific default dictionaries
-install -Dpm644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}/defaultdict.cfg
+desktop-file-install --delete-original \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications \
+  $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
-# icons
-mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
+rm -f `find $RPM_BUILD_ROOT%{_libdir}/stardict/plugins -name "*.la"`
 
-install -m 0644 dict/pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
-convert -geometry 32x32 dict/pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
-convert -geometry 16x16 dict/pixmaps/stardict.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
+# remove useless files in dict/doc
+rm dict/doc/{Makefile*,Readme.mac,README_windows.txt}
 
-# menu
-desktop-file-install --vendor="" \
-  --remove-category="Application" \
-  --add-category="GTK" \
-  --add-category="Office" \
-  --add-category="Dictionary" \
-  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
-
-# own various directories
-mkdir -p %{buildroot}%{_datadir}/stardict/dic	\
-	 %{buildroot}%{_datadir}/stardict/treedict
-
-%find_lang %{name} --with-gnome
+%find_lang %{name}
 
 %files -f %{name}.lang
-%dir %{_sysconfdir}/%{name}
-%config(noreplace) %{_sysconfdir}/%{name}/defaultdict.cfg
-%{_bindir}/*
+%{_bindir}/stardict
 %{_datadir}/applications/*.desktop
-%{_datadir}/pixmaps/*
-%{_datadir}/%{name}
-%{_mandir}/man?/*
-%{_libdir}/%{name}
-%{_iconsdir}/hicolor/*/apps/%{name}.png
-
+%{_datadir}/stardict
+%{_libdir}/stardict
+%{_datadir}/pixmaps/stardict.png
+%{_datadir}/omf/*
+%{_mandir}/man1/*
+# co-own
+%dir %{_datadir}/gnome/help/
+%doc %{_datadir}/gnome/help/stardict
+%doc AUTHORS COPYING ChangeLog README dict/doc/*
