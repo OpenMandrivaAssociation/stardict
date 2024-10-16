@@ -14,7 +14,7 @@ Version:	3.0.6
 Release:	2
 License:	GPLv3+
 Group:		Text tools
-URL:		http://code.google.com/p/stardict-3/
+URL:		https://code.google.com/p/stardict-3/
 Source0:	http://stardict-3.googlecode.com/files/%{name}-%{version}.tar.bz2
 
 BuildRequires:	pkgconfig(enchant) >= 1.2.0
