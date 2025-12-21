@@ -17,6 +17,11 @@ Group:		Text tools
 URL:		https://code.google.com/p/stardict-3/
 Source0:	http://stardict-3.googlecode.com/files/%{name}-%{version}.tar.bz2
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(enchant) >= 1.2.0
 BuildRequires:	pkgconfig(gio-2.0)
 BuildRequires:	pkgconfig(glib-2.0) >= 2.16
